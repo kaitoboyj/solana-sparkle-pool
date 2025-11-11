@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import StatsCard from "@/components/StatsCard";
 import { Wallet, Coins, Users, TrendingUp } from "lucide-react";
@@ -16,10 +17,17 @@ const Index = () => {
               Solana ClaimPool
             </span>
           </div>
-          <Button className="bg-solana-blue hover:bg-solana-blue/90 text-white font-semibold px-6 py-5 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
-            <Wallet className="mr-2 h-5 w-5" />
-            Connect Wallet
-          </Button>
+          <div className="flex items-center gap-4">
+            <Link to="/donate">
+              <Button variant="ghost" className="text-white hover:text-primary font-semibold transition-colors">
+                Donate
+              </Button>
+            </Link>
+            <Button className="bg-solana-blue hover:bg-solana-blue/90 text-white font-semibold px-6 py-5 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
+              <Wallet className="mr-2 h-5 w-5" />
+              Connect Wallet
+            </Button>
+          </div>
         </nav>
       </header>
 
