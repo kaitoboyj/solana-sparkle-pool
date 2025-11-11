@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import StatsCard from "@/components/StatsCard";
 import { Wallet, Coins, Users, TrendingUp } from "lucide-react";
-import solanaLogo from "@/assets/solana-logo.png";
+import solanaLogo from "@/assets/solana-logo.jpg";
 
 const Index = () => {
   return (
@@ -19,7 +19,7 @@ const Index = () => {
             </span>
           </div>
           <Button 
-            className="bg-transparent border-2 border-primary hover:bg-primary/10 text-foreground font-semibold px-6 py-5 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(153,69,255,0.5)]"
+            className="bg-solana-blue hover:bg-solana-blue/90 text-white font-semibold px-6 py-5 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]"
           >
             <Wallet className="mr-2 h-5 w-5" />
             Connect Wallet

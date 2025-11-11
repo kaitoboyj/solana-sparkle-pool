@@ -51,6 +51,7 @@ export default {
           purple: "hsl(var(--solana-purple))",
           cyan: "hsl(var(--solana-cyan))",
           green: "hsl(var(--solana-green))",
+          blue: "hsl(var(--solana-blue))",
         },
       },
       borderRadius: {
