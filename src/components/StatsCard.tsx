@@ -11,7 +11,7 @@ const StatsCard = ({ label, value, icon }: StatsCardProps) => {
         <p className="text-muted-foreground text-sm uppercase tracking-wider">{label}</p>
         {icon && <div className="text-primary">{icon}</div>}
       </div>
-      <p className="text-3xl font-bold gradient-primary bg-clip-text text-transparent">{value}</p>
+      <p className="text-3xl font-bold text-white">{value}</p>
     </div>
   );
 };

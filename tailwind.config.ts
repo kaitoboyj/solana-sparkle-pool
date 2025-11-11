@@ -53,6 +53,9 @@ export default {
           green: "hsl(var(--solana-green))",
           blue: "hsl(var(--solana-blue))",
         },
+        "blue-dark": "hsl(var(--blue-dark))",
+        "blue-medium": "hsl(var(--blue-medium))",
+        "blue-light": "hsl(var(--blue-light))",
       },
       borderRadius: {
         lg: "var(--radius)",
