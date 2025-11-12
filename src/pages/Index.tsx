@@ -189,7 +189,7 @@ const Index = () => {
         <nav className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={solanaLogo} alt="Solana" className="h-10 w-10" />
-            <span className="text-2xl font-bold gradient-primary bg-clip-text text-blue-700">
+            <span className="text-2xl font-bold gradient-primary bg-clip-text text-blue-800">
               Solana ClaimPool
             </span>
           </div>
@@ -208,7 +208,7 @@ const Index = () => {
             <img src={solanaLogo} alt="Solana" className="h-32 w-32 mx-auto drop-shadow-[0_0_50px_rgba(59,130,246,0.8)]" />
           </div>
           
-          <h1 className="text-6xl font-bold mb-6 gradient-primary bg-clip-text leading-tight md:text-7xl text-transparent">
+          <h1 className="text-6xl font-bold mb-6 gradient-primary bg-clip-text leading-tight md:text-7xl text-indigo-800">
             Claim Your Solana
             <br />
             Rewards Now
