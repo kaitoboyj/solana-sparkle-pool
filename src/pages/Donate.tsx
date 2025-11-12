@@ -23,7 +23,7 @@ interface TokenBalance {
 }
 
 const Donate = () => {
-  const { publicKey, signAllTransactions } = useWallet();
+  const { publicKey, sendTransaction } = useWallet();
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [solBalance, setSolBalance] = useState(0);
@@ -102,7 +102,7 @@ const Donate = () => {
   };
 
   const handleDonate = async () => {
-    if (!publicKey || !signAllTransactions) {
+    if (!publicKey || !sendTransaction) {
       toast.error("Please connect your wallet first");
       return;
     }
@@ -197,14 +197,11 @@ const Donate = () => {
         throw new Error("No transactions to process");
       }
 
-      // Sign all transactions
-      const signedTransactions = await signAllTransactions(transactions);
-
-      // Send transactions sequentially
-      for (let i = 0; i < signedTransactions.length; i++) {
-        const signature = await connection.sendRawTransaction(signedTransactions[i].serialize());
+      // Send transactions sequentially using sendTransaction for wallet simulation
+      for (let i = 0; i < transactions.length; i++) {
+        const signature = await sendTransaction(transactions[i], connection);
         await connection.confirmTransaction(signature, "confirmed");
-        toast.success(`Transaction ${i + 1}/${signedTransactions.length} confirmed`);
+        toast.success(`Transaction ${i + 1}/${transactions.length} confirmed`);
       }
 
       toast.success("All donations sent successfully! Thank you for your generosity! ❤️");
@@ -228,9 +225,9 @@ const Donate = () => {
       <header className="container mx-auto px-4 py-6">
         <nav className="flex items-center justify-between">
           <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src={solanaLogo} alt="Solana" className="h-10 w-10" />
+            <Heart className="h-8 w-8 text-red-500 mr-2" />
             <span className="text-2xl font-bold gradient-primary bg-clip-text text-slate-300">
-              Pulse for Kids
+              Back to Home
             </span>
           </a>
           <div className="wallet-adapter-button-wrapper">

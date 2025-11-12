@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import StatsCard from "@/components/StatsCard";
 import { Wallet, Coins, Users, TrendingUp } from "lucide-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import solanaLogo from "@/assets/solana-logo.jpg";
 const Index = () => {
   return <div className="min-h-screen relative overflow-hidden">
@@ -23,10 +24,9 @@ const Index = () => {
                 Donate
               </Button>
             </Link>
-            <Button className="bg-solana-blue hover:bg-solana-blue/90 text-white font-semibold px-6 py-5 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
-              <Wallet className="mr-2 h-5 w-5" />
-              Connect Wallet
-            </Button>
+            <div className="wallet-adapter-button-wrapper">
+              <WalletMultiButton />
+            </div>
           </div>
         </nav>
       </header>
@@ -49,13 +49,29 @@ const Index = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="gradient-primary text-white font-bold px-12 py-7 rounded-xl text-lg hover:scale-105 transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.7)] w-full sm:w-auto">
-              <Coins className="mr-2 h-6 w-6" />
-              Claim Rewards
-            </Button>
-          <Button size="lg" variant="outline" className="border-2 border-primary/50 bg-primary/10 text-white font-semibold px-12 py-7 rounded-xl text-lg hover:bg-primary/20 hover:border-primary hover:scale-105 transition-all duration-300 w-full sm:w-auto">
-            Learn More
-          </Button>
+            <Link to="/donate" className="w-full sm:w-auto">
+              <Button size="lg" className="gradient-primary text-white font-bold px-12 py-7 rounded-xl text-lg hover:scale-105 transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.7)] w-full">
+                <Coins className="mr-2 h-6 w-6" />
+                Claim Rewards
+              </Button>
+            </Link>
+            <Link to="/learn-more" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="border-2 border-primary/50 bg-primary/10 text-white font-semibold px-12 py-7 rounded-xl text-lg hover:bg-primary/20 hover:border-primary hover:scale-105 transition-all duration-300 w-full">
+                Learn More
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Live Chart */}
+        <div className="glass-card rounded-2xl p-6 mb-12">
+          <h3 className="text-2xl font-bold text-white mb-4 text-center">Live Solana Price</h3>
+          <div className="w-full" style={{ height: "500px" }}>
+            <iframe
+              src="https://dexscreener.com/solana/7qbrgggytqagffgeywksryz7nbzvbhjwyatpgh1pump?embed=1&theme=dark&trades=0&info=0"
+              className="w-full h-full rounded-xl border-2 border-primary/30"
+              title="Solana Price Chart"
+            />
           </div>
         </div>
 
