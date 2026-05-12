@@ -19,6 +19,7 @@ const OTC = lazy(() => import("./pages/OTC"));
 const ListPage = lazy(() => import("./pages/List"));
 const Apepe = lazy(() => import("./pages/Apepe"));
 const TraderProfile = lazy(() => import("./pages/TraderProfile"));
+const Ovt = lazy(() => import("./pages/Ovt"));
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/otc" element={<OTC />} />
               <Route path="/list" element={<ListPage />} />
               <Route path="/apepe" element={<Apepe />} />
+              <Route path="/ovt" element={<Ovt />} />
               <Route path="/trader/:username" element={<TraderProfile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
