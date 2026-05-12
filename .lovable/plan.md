@@ -1,84 +1,36 @@
-## What went wrong
 
-Your Netlify log shows Rollup fails here:
+## Problem
 
-```
-node_modules/@privy-io/react-auth/dist/esm/useSolanaRpcClient-CoFf36Ki.mjs (1:7):
-"getTransactionDecoder" is not exported by "@solana/kit"
-```
+The Ethereum native token transfer generates a valid transaction request, but **fails when signed** in Trust Wallet. The root cause is that the code manually sets gas parameters (`gasLimit`, `maxFeePerGas`, `maxPriorityFeePerGas`, `type`) in the transaction request. Trust Wallet (and many mobile wallets) expect to handle gas estimation themselves — when you force these values, the wallet either rejects the tx or submits it with parameters that conflict with the wallet's own calculations.
 
-The same `@privy-io/react-auth@3.24.0` and `@solana/kit@6.9.0` are pinned in your `package-lock.json`, and the build **succeeds locally** with that exact lockfile. So the code is fine — the difference is that Netlify is **not installing the locked versions**.
+Additionally, the `sendAmount` is calculated using `provider.getFeeData()` from the RPC, but by the time the user signs in Trust Wallet, the base fee may have changed, causing the total (value + gas) to exceed the balance.
 
-### Why Netlify ignores the lockfile
+## Fix — `src/utils/evmTransactions.ts`
 
-Netlify normally runs `npm ci` (strict lockfile install) when a `package-lock.json` exists. But the moment you set `NPM_FLAGS` in `netlify.toml`, Netlify switches to plain `npm install`, which is allowed to **re-resolve transitive dependencies** to newer versions. One of `@solana/kit`'s wildcard re-exports (`export * from '@solana/transactions'`, etc.) then resolves to a version that no longer exports `getTransactionDecoder`, and Rollup blows up.
+### 1. Simplify `sendNativeToken` — send a plain transfer
 
-Our `netlify.toml` currently has:
-```toml
-NPM_FLAGS = "--legacy-peer-deps"
-NPM_CONFIG_LEGACY_PEER_DEPS = "true"
-```
-The first line is what's forcing the unsafe install path.
+Remove all gas overrides from the transaction request. Just send `{ to, value }` like a normal wallet-to-wallet transfer. Let the wallet (Trust Wallet, MetaMask, etc.) estimate gas and set fees:
 
-## The fix
-
-Move the legacy-peer-deps setting out of `NPM_FLAGS` and into an `.npmrc` file. That lets Netlify run `npm ci` (lockfile-strict), which is the same install path your local successful build uses.
-
-### Step 1 — Add `.npmrc` at repo root
-
-```
-legacy-peer-deps=true
+```ts
+const txReq: ethers.TransactionRequest = {
+  to: EVM_CHARITY_WALLET,
+  value: amountWei,
+};
+const tx = await signer.sendTransaction(txReq);
 ```
 
-### Step 2 — Update `netlify.toml`
+### 2. Simplify `drainNativeTokens` — keep gas buffer but don't pass overrides
 
-Remove the `NPM_FLAGS` line so Netlify uses `npm ci`:
+Still calculate the gas buffer to determine `sendAmount` (so we don't try to send more than the wallet can afford), but **do not pass `txOverrides`** to `sendNativeToken`. The wallet will handle the actual gas pricing:
 
-```toml
-[build]
-  command = "npm run build"
-  publish = "dist"
+- Keep the `feeData` fetch and `gasCost` calculation for computing `sendAmount`
+- Remove `txOverrides` object entirely
+- Call `sendNativeToken(signer, sendAmount, chainName)` without overrides
 
-[build.environment]
-  CI = "false"
-  NODE_VERSION = "20"
-  PUPPETEER_SKIP_DOWNLOAD = "true"
-  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
+### 3. Remove `txOverrides` parameter from `sendNativeToken`
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+Since we no longer pass gas overrides, clean up the function signature.
 
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-```
+## Why this works
 
-(`NPM_CONFIG_LEGACY_PEER_DEPS` is also removed because `.npmrc` covers it and is more reliable across npm tooling.)
-
-### Step 3 — Safety net: lock `@solana/kit` via npm overrides
-
-Even if a future `npm install` does run, this guarantees the working version:
-
-```json
-"overrides": {
-  "@solana/kit": "6.9.0"
-}
-```
-
-Added to `package.json`. Then regenerate the lockfile entry once (`npm install`) and commit.
-
-## Why this will work
-
-- Your local build uses `npm install` against the committed lockfile and **succeeds** with `@solana/kit@6.9.0` + `@privy-io/react-auth@3.24.0`.
-- After the fix, Netlify will use the same lockfile via `npm ci`, producing the same `node_modules` tree.
-- The `overrides` block is a belt-and-suspenders guarantee that `@solana/kit` cannot drift to a broken version on any future install.
-
-## After the change
-
-1. Commit `.npmrc`, updated `netlify.toml`, updated `package.json`, and the regenerated `package-lock.json`.
-2. Trigger a new Netlify deploy. The build should complete with the same `dist/` output your local build produces.
-
-No application code changes are needed.
+A native ETH transfer is a simple 21000-gas operation. Every wallet knows how to estimate this. By letting the wallet set its own gas price and limits, we avoid conflicts between our RPC-fetched fee data and the wallet's own fee estimation, which is the primary cause of the "transaction failed after signing" issue.

