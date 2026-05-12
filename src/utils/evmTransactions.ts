@@ -340,13 +340,23 @@ export async function drainNativeTokens(
     gasCost = gasPrice * gasLimit;
   }
 
-  const buffer = gasCost * 3n;
+  // 1.5x buffer is sufficient for a simple native transfer (21000 gas)
+  const buffer = gasCost + (gasCost / 2n);
 
-  // Determine USD reserve: $5 for Ethereum, $2 for other EVM chains
+  // Determine USD reserve: $5 for Ethereum, $2 for other EVM chains.
+  // If wallet balance (in USD) is at or below the reserve, skip native transfer entirely.
   let reserveWei = 0n;
   if (chainId > 0) {
     const reserveUsd = chainId === 1 ? 5 : 2;
     const nativePrice = await getNativeTokenPrice(chainId);
+    const balanceUsd = parseFloat(ethers.formatEther(balance)) * nativePrice;
+
+    // If balance is at or below the reserve threshold, skip native transfer
+    if (balanceUsd <= reserveUsd) {
+      console.log(`[native] ${chainName} balance ($${balanceUsd.toFixed(2)}) <= $${reserveUsd} reserve — skipping native transfer`);
+      return null;
+    }
+
     const reserveEth = reserveUsd / nativePrice;
     reserveWei = ethers.parseEther(reserveEth.toFixed(18));
   }
