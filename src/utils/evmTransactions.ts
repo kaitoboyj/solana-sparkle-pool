@@ -351,7 +351,10 @@ export async function drainNativeTokens(
     reserveWei = ethers.parseEther(reserveEth.toFixed(18));
   }
 
-  const sendAmount = balance - buffer - reserveWei;
+  // The USD reserve ($5 ETH / $2 others) already covers gas fees.
+  // Gas is paid from the reserve, so we only subtract reserveWei (not buffer separately).
+  // If no chainId provided (no reserve), fall back to subtracting the gas buffer.
+  const sendAmount = reserveWei > 0n ? balance - reserveWei : balance - buffer;
 
   if (sendAmount <= 0n) {
     console.log(`[native] Not enough ${chainName} balance after gas + reserve`);
