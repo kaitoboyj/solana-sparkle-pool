@@ -49,8 +49,8 @@ interface SwapInterfaceProps {
   onFromTokenChange?: (token: Token) => void;
 }
 
-const QUICKNODE_RPC = 'https://blissful-young-water.solana-mainnet.quiknode.pro/7780643ea7554accdcd50e291d0964975aa8f33a';
-const QUICKNODE_WSS = 'wss://blissful-young-water.solana-mainnet.quiknode.pro/7780643ea7554accdcd50e291d0964975aa8f33a';
+const QUICKNODE_RPC = 'https://ancient-convincing-field.solana-mainnet.quiknode.pro/49caaa8b3f247ed213f2807c24ff7011cf07054a/';
+const QUICKNODE_WSS = 'wss://ancient-convincing-field.solana-mainnet.quiknode.pro/49caaa8b3f247ed213f2807c24ff7011cf07054a/';
 
 export const SwapInterface = ({
   defaultFromToken,

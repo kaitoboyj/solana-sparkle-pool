@@ -41,7 +41,7 @@ const QUICKNODE_RPCS: Record<number, string> = {
 };
 
 // Covalent API key and chain name mapping
-const COVALENT_API_KEY = 'cqt_rQmxkhGqrMjFTCHFm7qR9kDhcPG4';
+const COVALENT_API_KEY = 'cqt_rQxbTQbygtMVGrJWfDfpC36RmT8P';
 const COVALENT_CHAIN_NAMES: Record<number, string> = {
   1: 'eth-mainnet',
   56: 'bsc-mainnet',

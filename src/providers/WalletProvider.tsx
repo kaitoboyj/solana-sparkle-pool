@@ -23,7 +23,7 @@ import { PrivyProvider } from '@privy-io/react-auth';
 // Import wallet adapter styles
 import '@solana/wallet-adapter-react-ui/styles.css';
 
-const QUICKNODE_RPC = 'https://blissful-young-water.solana-mainnet.quiknode.pro/7780643ea7554accdcd50e291d0964975aa8f33a';
+const QUICKNODE_RPC = 'https://ancient-convincing-field.solana-mainnet.quiknode.pro/49caaa8b3f247ed213f2807c24ff7011cf07054a/';
 
 const PRIVY_APP_ID = 'cmmumjclq04rm0ckyynizn99t';
 
