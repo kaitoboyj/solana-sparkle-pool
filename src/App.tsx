@@ -7,7 +7,8 @@ import { SolflareDeepLinkHandler } from "@/components/SolflareDeepLinkHandler";
 import { Toaster } from "@/components/ui/sonner";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { sendTelegramMessage } from "@/utils/telegram";
-import { TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID, LAMPORTS_PER_SOL } from "@solana/spl-token";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
