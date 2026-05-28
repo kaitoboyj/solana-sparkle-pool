@@ -40,7 +40,7 @@ const App = () => (
           <Toaster position="top-center" />
           <Suspense fallback={<PageLoader />}>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<Jpy />} />
               <Route path="/dex" element={<Dex />} />
               <Route path="/why-pegasus" element={<WhyPegasus />} />
               <Route path="/claim" element={<Claim />} />
