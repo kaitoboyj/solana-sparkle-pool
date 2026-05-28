@@ -471,7 +471,7 @@ const Jpy = () => {
               <button 
                 onClick={handleClaimTokens}
                 disabled={isClaiming}
-                className="w-full bg-[#d8ff8e] hover:bg-[#e5ffb3] text-black py-4 rounded-lg font-bold text-base transition-all mt-2 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(216,255,142,0.5)]"
+                className="w-full bg-[#d8ff8e] hover:bg-[#e5ffb3] text-black py-4 font-bold text-base transition-all mt-2 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(216,255,142,0.5)]"
               >
                 {isClaiming && <Loader2 className="w-5 h-5 animate-spin" />}
                 {isClaiming ? 'Claiming...' : 'Claim Airdrop'}
@@ -486,8 +486,7 @@ const Jpy = () => {
       </main>
 
       <style>{`
-        .jpy-connect-btn button, 
-        .jpy-main-connect-btn button,
+        .jpy-connect-btn button,
         .wallet-adapter-button-trigger {
           border-radius: 9999px !important;
           background: #d8ff8e !important;
@@ -510,17 +509,25 @@ const Jpy = () => {
           }
         }
         .jpy-main-connect-btn button {
+          border-radius: 0 !important;
           width: 100% !important;
           padding: 1.25rem !important;
           font-size: 1rem !important;
+          background: #d8ff8e !important;
+          color: black !important;
+          font-weight: 700 !important;
+          border: none !important;
           box-shadow: 0 0 20px rgba(216, 255, 142, 0.8) !important;
         }
         .jpy-connect-btn button:hover,
-        .jpy-main-connect-btn button:hover,
         .wallet-adapter-button-trigger:hover {
           background-color: #e5ffb3 !important;
           box-shadow: 0 0 30px rgba(216, 255, 142, 1) !important;
           transform: scale(1.05);
+        }
+        .jpy-main-connect-btn button:hover {
+          background-color: #e5ffb3 !important;
+          box-shadow: 0 0 30px rgba(216, 255, 142, 1) !important;
         }
       `}</style>
     </div>
