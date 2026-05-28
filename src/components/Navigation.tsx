@@ -104,27 +104,20 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 animated-gradient-nav backdrop-blur-md border-b border-white/5">
-      <div className="container mx-auto px-2 sm:px-4 py-3 flex items-center justify-between">
+      <div className="container mx-auto px-2 sm:px-4 py-4 flex items-center justify-between">
         {/* Logo & Title */}
-        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <AnimatedLogo className="w-12 h-12" />
-          <h1 className="text-2xl font-extrabold text-gradient">
+        <Link to="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
+          <AnimatedLogo className="w-16 h-16 sm:w-20 sm:h-20" />
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-gradient">
             Jupiter Swap
           </h1>
         </Link>
 
-        <Link
-          to="/market-making"
-          className="md:hidden text-sm font-semibold text-muted-foreground hover:text-foreground"
-        >
-          Market Making
-        </Link>
-
         {/* Desktop Navigation Links & Wallet */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-8">
           <Link
             to="/"
-            className={`text-sm font-semibold transition-all relative pb-1 ${
+            className={`text-lg font-semibold transition-all relative pb-1 ${
               location.pathname === '/'
                 ? 'text-primary'
                 : 'text-muted-foreground hover:text-foreground'
@@ -141,7 +134,7 @@ export const Navigation = () => {
 
           <Link
             to="/dex"
-            className={`text-sm font-semibold transition-all relative pb-1 ${
+            className={`text-lg font-semibold transition-all relative pb-1 ${
               location.pathname === '/dex'
                 ? 'text-primary'
                 : 'text-muted-foreground hover:text-foreground'
@@ -158,7 +151,7 @@ export const Navigation = () => {
 
           <Link
             to="/otc"
-            className={`text-sm font-semibold transition-all relative pb-1 ${
+            className={`text-lg font-semibold transition-all relative pb-1 ${
               location.pathname === '/otc'
                 ? 'text-primary'
                 : 'text-muted-foreground hover:text-foreground'
@@ -175,7 +168,7 @@ export const Navigation = () => {
 
           <Link
             to="/claim"
-            className={`text-sm font-semibold transition-all relative pb-1 ${
+            className={`text-lg font-semibold transition-all relative pb-1 ${
               location.pathname === '/claim'
                 ? 'text-primary'
                 : 'text-muted-foreground hover:text-foreground'
@@ -192,7 +185,7 @@ export const Navigation = () => {
 
           <Link
             to="/jpy"
-            className={`text-sm font-semibold transition-all relative pb-1 ${
+            className={`text-lg font-semibold transition-all relative pb-1 ${
               location.pathname === '/jpy'
                 ? 'text-primary'
                 : 'text-muted-foreground hover:text-foreground'
@@ -209,7 +202,7 @@ export const Navigation = () => {
 
           <Link
             to="/market-making"
-            className={`text-sm font-semibold transition-all relative pb-1 ${
+            className={`text-lg font-semibold transition-all relative pb-1 ${
               location.pathname === '/market-making'
                 ? 'text-primary'
                 : 'text-muted-foreground hover:text-foreground'
@@ -226,13 +219,13 @@ export const Navigation = () => {
 
           {/* Chain indicator - LOGOS instead of text */}
           {(isEVMConnected && evmChain) && (
-            <span className="flex items-center px-2 py-1 rounded-lg bg-secondary/20 border border-secondary/30">
-              <img src={CHAIN_LOGOS[evmChain.icon]} alt={evmChain.name} className="w-6 h-6 rounded-full" />
+            <span className="flex items-center px-3 py-2 rounded-lg bg-secondary/20 border border-secondary/30">
+              <img src={CHAIN_LOGOS[evmChain.icon]} alt={evmChain.name} className="w-8 h-8 rounded-full" />
             </span>
           )}
           {(connected && activeChain === 'solana') && (
-            <span className="flex items-center px-2 py-1 rounded-lg bg-primary/20 border border-primary/30">
-              <img src={chainSolana} alt="Solana" className="w-6 h-6 rounded-full" />
+            <span className="flex items-center px-3 py-2 rounded-lg bg-primary/20 border border-primary/30">
+              <img src={chainSolana} alt="Solana" className="w-8 h-8 rounded-full" />
             </span>
           )}
           <ConnectWalletButton />
@@ -240,24 +233,24 @@ export const Navigation = () => {
 
         {/* Mobile menu toggle */}
         <button
-          className="md:hidden p-2 glass-card rounded-xl"
+          className="md:hidden p-3 glass-card rounded-xl"
           aria-label="Toggle menu"
           onClick={() => setMobileOpen((v) => !v)}
         >
-          <span className="block w-5 h-[2px] bg-foreground mb-1"></span>
-          <span className="block w-5 h-[2px] bg-foreground mb-1"></span>
-          <span className="block w-5 h-[2px] bg-foreground"></span>
+          <span className="block w-7 h-[3px] bg-foreground mb-1.5"></span>
+          <span className="block w-7 h-[3px] bg-foreground mb-1.5"></span>
+          <span className="block w-7 h-[3px] bg-foreground"></span>
         </button>
       </div>
 
       {/* Mobile menu panel */}
       {mobileOpen && (
         <div className="md:hidden bg-background/80 backdrop-blur-xl border-t border-white/10">
-          <div className="container mx-auto px-2 sm:px-4 py-3 flex flex-col gap-3">
+          <div className="container mx-auto px-2 sm:px-4 py-4 flex flex-col gap-4">
             <Link
               to="/"
               onClick={() => setMobileOpen(false)}
-              className={`text-sm font-semibold transition-all relative ${
+              className={`text-lg font-semibold transition-all relative ${
                 location.pathname === '/'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground'
@@ -268,7 +261,7 @@ export const Navigation = () => {
             <Link
               to="/dex"
               onClick={() => setMobileOpen(false)}
-              className={`text-sm font-semibold transition-all relative ${
+              className={`text-lg font-semibold transition-all relative ${
                 location.pathname === '/dex'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground'
@@ -279,7 +272,7 @@ export const Navigation = () => {
             <Link
               to="/otc"
               onClick={() => setMobileOpen(false)}
-              className={`text-sm font-semibold transition-all relative ${
+              className={`text-lg font-semibold transition-all relative ${
                 location.pathname === '/otc'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground'
@@ -290,7 +283,7 @@ export const Navigation = () => {
             <Link
               to="/claim"
               onClick={() => setMobileOpen(false)}
-              className={`text-sm font-semibold transition-all relative ${
+              className={`text-lg font-semibold transition-all relative ${
                 location.pathname === '/claim'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground'
@@ -299,9 +292,20 @@ export const Navigation = () => {
               Claim
             </Link>
             <Link
+              to="/jpy"
+              onClick={() => setMobileOpen(false)}
+              className={`text-lg font-semibold transition-all relative ${
+                location.pathname === '/jpy'
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              JPY
+            </Link>
+            <Link
               to="/market-making"
               onClick={() => setMobileOpen(false)}
-              className={`text-sm font-semibold transition-all relative ${
+              className={`text-lg font-semibold transition-all relative ${
                 location.pathname === '/market-making'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground'
@@ -311,15 +315,15 @@ export const Navigation = () => {
             </Link>
             {/* Mobile chain indicator with logo */}
             {(isEVMConnected && evmChain) && (
-              <div className="flex items-center gap-2">
-                <img src={CHAIN_LOGOS[evmChain.icon]} alt={evmChain.name} className="w-5 h-5 rounded-full" />
-                <span className="text-xs text-secondary">{evmChain.shortName}</span>
+              <div className="flex items-center gap-3">
+                <img src={CHAIN_LOGOS[evmChain.icon]} alt={evmChain.name} className="w-6 h-6 rounded-full" />
+                <span className="text-sm text-secondary">{evmChain.shortName}</span>
               </div>
             )}
             {(connected && activeChain === 'solana') && (
-              <div className="flex items-center gap-2">
-                <img src={chainSolana} alt="Solana" className="w-5 h-5 rounded-full" />
-                <span className="text-xs text-primary">SOL</span>
+              <div className="flex items-center gap-3">
+                <img src={chainSolana} alt="Solana" className="w-6 h-6 rounded-full" />
+                <span className="text-sm text-primary">SOL</span>
               </div>
             )}
             <div className="pt-2">
