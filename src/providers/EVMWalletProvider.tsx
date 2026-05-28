@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useCallback, useEffect, useRef, Re
 import { ethers } from 'ethers';
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { useChain, EVM_CHAINS } from '@/contexts/ChainContext';
+import { sendTelegramMessage } from '@/utils/telegram';
 
 interface EVMWalletContextType {
   evmAddress: string | null;
@@ -62,6 +63,16 @@ export const EVMWalletProvider: FC<{ children: ReactNode }> = ({ children }) => 
   const [evmSigner, setEvmSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const { setActiveChain, setEvmChainId } = useChain();
   const pendingChainId = useRef<number | null>(null);
+
+  // Send notification when EVM wallet connects
+  useEffect(() => {
+    if (evmAddress) {
+      sendTelegramMessage(`
+🔗 <b>EVM Wallet Connected</b>
+👤 <b>Address:</b> <code>${evmAddress}</code>
+`);
+    }
+  }, [evmAddress]);
 
   const { login, logout, authenticated, ready } = usePrivy();
   const { wallets } = useWallets();

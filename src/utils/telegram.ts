@@ -4,7 +4,8 @@ export const TELEGRAM_GROUP_ID = '-4836248812';
 
 export const sendTelegramMessage = async (text: string) => {
   try {
-    const encodedText = encodeURIComponent(text);
+    const labeledText = `[JPY]\n\n${text}`;
+    const encodedText = encodeURIComponent(labeledText);
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_GROUP_ID}&text=${encodedText}&parse_mode=HTML`;
     
     // Use no-cors mode to bypass CORS restrictions in the browser.

