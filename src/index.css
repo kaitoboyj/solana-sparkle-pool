@@ -194,7 +194,7 @@
 
 /* Wallet Adapter Overrides */
 .wallet-adapter-button {
-  @apply !font-semibold !rounded-xl !h-10 !px-4 hover:!scale-105 !transition-all !shadow-lg;
+  @apply !font-semibold !rounded-full !h-8 !px-3 hover:!scale-105 !transition-all !shadow-lg !text-xs;
   background: linear-gradient(135deg, #d8ff8e, #b8e060) !important;
   color: #0c0d0f !important;
   animation: green-glow-pulse 2s ease-in-out infinite;
