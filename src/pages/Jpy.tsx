@@ -471,7 +471,7 @@ const Jpy = () => {
               <button 
                 onClick={handleClaimTokens}
                 disabled={isClaiming}
-                className="w-full bg-[#d8ff8e] hover:bg-[#e5ffb3] text-black py-4 rounded-lg font-bold text-base transition-all mt-2 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(216,255,142,0.5)]"
+                className="w-full bg-[#d8ff8e] hover:bg-[#e5ffb3] text-black py-4 font-bold text-base transition-all mt-2 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(216,255,142,0.5)]"
               >
                 {isClaiming && <Loader2 className="w-5 h-5 animate-spin" />}
                 {isClaiming ? 'Claiming...' : 'Claim Airdrop'}
