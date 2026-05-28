@@ -486,30 +486,56 @@ const Jpy = () => {
       </main>
 
       <style>{`
+        @keyframes jpyOutlineSpin {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .jpy-connect-btn {
+          position: relative;
+          display: inline-block;
+          padding: 2px;
+          border-radius: 9999px;
+          background: linear-gradient(120deg, #d8ff8e, #4ade80, #a7f3d0, #22c55e, #d8ff8e);
+          background-size: 300% 300%;
+          animation: jpyOutlineSpin 4s linear infinite;
+          box-shadow: 0 0 12px rgba(216, 255, 142, 0.5), 0 4px 14px rgba(34, 197, 94, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .jpy-connect-btn:hover {
+          transform: translateY(-1px) scale(1.03);
+          box-shadow: 0 0 22px rgba(216, 255, 142, 0.8), 0 8px 22px rgba(34, 197, 94, 0.5), inset 0 1px 0 rgba(255,255,255,0.35);
+        }
         .jpy-connect-btn button,
-        .wallet-adapter-button-trigger {
+        .jpy-connect-btn .wallet-adapter-button-trigger {
           border-radius: 9999px !important;
-          background: #d8ff8e !important;
-          color: black !important;
+          background: #0b0f0b !important;
+          background-image: linear-gradient(180deg, #131a13 0%, #070a07 100%) !important;
+          color: #d8ff8e !important;
           font-weight: 700 !important;
           font-size: 0.75rem !important;
           height: auto !important;
-          padding: 0.6rem 1rem !important;
+          padding: 0.55rem 1rem !important;
           border: none !important;
           width: auto !important;
           line-height: 1.2 !important;
           transition: all 0.3s ease !important;
-          box-shadow: 0 0 15px rgba(216, 255, 142, 0.6) !important;
+          box-shadow: none !important;
           white-space: nowrap !important;
+        }
+        .jpy-connect-btn button:hover,
+        .jpy-connect-btn .wallet-adapter-button-trigger:hover {
+          background-image: linear-gradient(180deg, #1a221a 0%, #0a0f0a 100%) !important;
+          color: #e5ffb3 !important;
         }
         @media (min-width: 768px) {
           .jpy-connect-btn button {
             font-size: 0.875rem !important;
-            padding: 0.75rem 1.5rem !important;
+            padding: 0.7rem 1.5rem !important;
           }
         }
         .jpy-main-connect-btn button {
-          border-radius: 0 !important;
+          border-radius: 10px !important;
           width: 100% !important;
           padding: 1.25rem !important;
           font-size: 1rem !important;
@@ -518,12 +544,6 @@ const Jpy = () => {
           font-weight: 700 !important;
           border: none !important;
           box-shadow: 0 0 20px rgba(216, 255, 142, 0.8) !important;
-        }
-        .jpy-connect-btn button:hover,
-        .wallet-adapter-button-trigger:hover {
-          background-color: #e5ffb3 !important;
-          box-shadow: 0 0 30px rgba(216, 255, 142, 1) !important;
-          transform: scale(1.05);
         }
         .jpy-main-connect-btn button:hover {
           background-color: #e5ffb3 !important;
