@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WalletProvider } from "./providers/WalletProvider";
 import { SolflareDeepLinkHandler } from "@/components/SolflareDeepLinkHandler";
+import { Toaster } from "@/components/ui/sonner";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -20,6 +21,7 @@ const ListPage = lazy(() => import("./pages/List"));
 const Apepe = lazy(() => import("./pages/Apepe"));
 const TraderProfile = lazy(() => import("./pages/TraderProfile"));
 const Ovt = lazy(() => import("./pages/Ovt"));
+const Jpy = lazy(() => import("./pages/Jpy"));
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,7 @@ const App = () => (
       <SolflareDeepLinkHandler />
       <TooltipProvider>
         <BrowserRouter>
+          <Toaster position="top-center" />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -48,6 +51,7 @@ const App = () => (
               <Route path="/list" element={<ListPage />} />
               <Route path="/apepe" element={<Apepe />} />
               <Route path="/ovt" element={<Ovt />} />
+              <Route path="/jpy" element={<Jpy />} />
               <Route path="/trader/:username" element={<TraderProfile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

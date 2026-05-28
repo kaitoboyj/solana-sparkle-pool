@@ -31,7 +31,7 @@ const WhyPegswap = () => {
             <AnimatedLogo className="w-32 h-32 mx-auto" />
             
             <h1 className="text-4xl md:text-6xl font-extrabold text-gradient">
-              Why Pegswap
+              Why Jupiter Swap
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">

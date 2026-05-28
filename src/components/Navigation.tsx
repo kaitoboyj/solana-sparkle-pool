@@ -109,7 +109,7 @@ export const Navigation = () => {
         <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <AnimatedLogo className="w-12 h-12" />
           <h1 className="text-2xl font-extrabold text-gradient">
-            Pegswap
+            Jupiter Swap
           </h1>
         </Link>
 
@@ -183,6 +183,23 @@ export const Navigation = () => {
           >
             Claim
             {location.pathname === '/claim' && (
+              <motion.div
+                layoutId="underline"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
+              />
+            )}
+          </Link>
+
+          <Link
+            to="/jpy"
+            className={`text-sm font-semibold transition-all relative pb-1 ${
+              location.pathname === '/jpy'
+                ? 'text-primary'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            JPY
+            {location.pathname === '/jpy' && (
               <motion.div
                 layoutId="underline"
                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"

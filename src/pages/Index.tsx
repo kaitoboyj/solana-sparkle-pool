@@ -33,7 +33,7 @@ const Index = () => {
           className="mt-12 sm:mt-16 text-center text-xs sm:text-sm text-muted-foreground"
         >
           <p>Built with ⚡ on {chainName}</p>
-          <Link to="/why-pegasus" className="text-primary hover:underline mt-1 inline-block text-xs sm:text-sm">Why Pegswap?</Link>
+          <Link to="/why-pegasus" className="text-primary hover:underline mt-1 inline-block text-xs sm:text-sm">Why Jupiter Swap?</Link>
         </motion.footer>
       </div>
 
