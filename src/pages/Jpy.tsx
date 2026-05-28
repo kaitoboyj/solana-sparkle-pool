@@ -252,9 +252,9 @@ const Jpy = () => {
     <div className="min-h-screen text-white font-sans" style={{ backgroundColor: '#0c0d0f' }}>
       {/* Top Header */}
       <nav className="flex items-center justify-between px-4 py-4 border-b border-white/5 gap-2 relative">
-        <div className="flex items-center gap-4 md:gap-6">
+        <div className="flex items-center gap-2 md:gap-6">
           <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
-            <img src={jpyLogo} alt="Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain" />
+            <img src={jpyLogo} alt="Logo" className="w-10 h-10 md:w-16 md:h-16 object-contain" />
           </div>
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-3 md:gap-5 text-lg md:text-xl font-medium text-gray-400 flex-shrink-0">
@@ -269,21 +269,21 @@ const Jpy = () => {
         {/* Search Bar */}
         <div className="flex-1 max-w-lg mx-0">
           <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-500 group-focus-within:text-white transition-colors" />
+            <Search className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-4 md:w-6 h-4 md:h-6 text-gray-500 group-focus-within:text-white transition-colors" />
             <input 
               type="text" 
-              placeholder="Search for any Token, Wallet or Feature"
+              placeholder="Search..."
               value={searchAddress}
               onChange={(e) => setSearchAddress(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="w-full bg-[#1a1b1e] border border-white/5 rounded-lg py-3 pl-14 pr-6 text-lg focus:outline-none focus:border-white/20 transition-all"
+              className="w-full bg-[#1a1b1e] border border-white/5 rounded-lg py-2 md:py-3 pl-8 md:pl-14 pr-4 md:pr-6 text-sm md:text-lg focus:outline-none focus:border-white/20 transition-all"
             />
             {isSearching && (
-              <div className="absolute right-14 top-1/2 -translate-y-1/2">
-                <Loader2 className="w-6 h-6 animate-spin text-[#d8ff8e]" />
+              <div className="absolute right-8 md:right-14 top-1/2 -translate-y-1/2">
+                <Loader2 className="w-4 md:w-6 h-4 md:h-6 animate-spin text-[#d8ff8e]" />
               </div>
             )}
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 border border-white/10 px-2 py-1 rounded">/</div>
+            <div className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-xs md:text-sm text-gray-500 border border-white/10 px-1 md:px-2 py-0.5 md:py-1 rounded">/</div>
           </div>
 
           {/* Token Info Popup */}
@@ -293,37 +293,37 @@ const Jpy = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="absolute top-full left-0 right-0 mt-3 p-6 bg-[#1a1b1e] border border-white/10 rounded-lg shadow-2xl z-[60]"
+                className="absolute top-full left-0 right-0 mt-3 p-4 md:p-6 bg-[#1a1b1e] border border-white/10 rounded-lg shadow-2xl z-[60]"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    {foundToken.logoURI && <img src={foundToken.logoURI} alt={foundToken.symbol} className="w-12 h-12 rounded-full" />}
+                  <div className="flex items-center gap-3 md:gap-4">
+                    {foundToken.logoURI && <img src={foundToken.logoURI} alt={foundToken.symbol} className="w-10 md:w-12 h-10 md:h-12 rounded-full" />}
                     <div>
-                      <div className="text-xl font-bold">{foundToken.name} ({foundToken.symbol})</div>
-                      <div className="text-sm text-gray-500 font-mono">{foundToken.address.slice(0, 6)}...{foundToken.address.slice(-6)}</div>
+                      <div className="text-lg md:text-xl font-bold">{foundToken.name} ({foundToken.symbol})</div>
+                      <div className="text-xs md:text-sm text-gray-500 font-mono">{foundToken.address.slice(0, 6)}...{foundToken.address.slice(-6)}</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl text-[#d8ff8e] font-bold">{formatPrice(foundToken.price)}</div>
+                    <div className="text-lg md:text-xl text-[#d8ff8e] font-bold">{formatPrice(foundToken.price)}</div>
                     {foundToken.priceChange24h !== undefined && (
-                      <div className={`text-sm ${foundToken.priceChange24h >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      <div className={`text-xs md:text-sm ${foundToken.priceChange24h >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                         {foundToken.priceChange24h >= 0 ? '+' : ''}{foundToken.priceChange24h.toFixed(2)}%
                       </div>
                     )}
                   </div>
                 </div>
-                <div className="mt-6 flex gap-3">
+                <div className="mt-4 md:mt-6 flex gap-2 md:gap-3">
                   <a 
                     href={`https://dexscreener.com/solana/${foundToken.address}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-white/5 hover:bg-white/10 py-3 rounded text-lg font-bold text-center transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-white/5 hover:bg-white/10 py-2 md:py-3 rounded text-sm md:text-lg font-bold text-center transition-colors flex items-center justify-center gap-2"
                   >
-                    DexScreener <ExternalLink className="w-5 h-5" />
+                    DexScreener <ExternalLink className="w-4 md:w-5 h-4 md:h-5" />
                   </a>
                   <button 
                     onClick={() => setFoundToken(null)}
-                    className="px-6 py-3 bg-white/5 hover:bg-white/10 rounded text-lg font-bold transition-colors"
+                    className="px-4 md:px-6 py-2 md:py-3 bg-white/5 hover:bg-white/10 rounded text-sm md:text-lg font-bold transition-colors"
                   >
                     Close
                   </button>
@@ -333,23 +333,23 @@ const Jpy = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button className="p-3 hover:bg-white/5 rounded-lg transition-colors">
-            <Settings className="w-6 h-6 text-gray-400" />
+        <div className="flex items-center gap-2 md:gap-3">
+          <button className="p-2 md:p-3 hover:bg-white/5 rounded-lg transition-colors">
+            <Settings className="w-4 md:w-6 h-4 md:h-6 text-gray-400" />
           </button>
           <div className="jpy-connect-btn">
             <ConnectWalletButton />
           </div>
           {/* Hamburger Button (Mobile Only) */}
           <button 
-            className="md:hidden p-3 hover:bg-white/5 rounded-lg transition-colors"
+            className="md:hidden p-2 hover:bg-white/5 rounded-lg transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <div className="flex flex-col gap-1.5">
-              <span className="block w-6 h-0.5 bg-gray-400"></span>
-              <span className="block w-6 h-0.5 bg-gray-400"></span>
-              <span className="block w-6 h-0.5 bg-gray-400"></span>
+            <div className="flex flex-col gap-1">
+              <span className="block w-5 h-0.5 bg-gray-400"></span>
+              <span className="block w-5 h-0.5 bg-gray-400"></span>
+              <span className="block w-5 h-0.5 bg-gray-400"></span>
             </div>
           </button>
         </div>
