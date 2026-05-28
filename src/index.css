@@ -68,12 +68,7 @@
   body {
     @apply bg-background text-foreground font-[family-name:var(--font-poppins)];
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background-image: url('/background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: transparent;
+    background-color: #0c0d0f;
   }
 }
 

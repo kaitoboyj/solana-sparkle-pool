@@ -251,12 +251,12 @@ const Jpy = () => {
   return (
     <div className="min-h-screen text-white font-sans" style={{ backgroundColor: '#0c0d0f' }}>
       {/* Top Header */}
-      <nav className="flex items-center justify-between px-6 py-3 border-b border-white/5">
-        <div className="flex items-center gap-6">
+      <nav className="flex items-center justify-between px-4 py-3 border-b border-white/5 gap-1">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             <img src={jpyLogo} alt="Logo" className="w-8 h-8 object-contain" />
           </div>
-          <div className="flex items-center gap-5 text-sm font-medium text-gray-400">
+          <div className="flex items-center gap-2 text-sm font-medium text-gray-400">
             <a href="https://jup.ag/" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Swap</a>
             <a href="https://jup.ag/terminal/cooking" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Pro</a>
             <a href="https://jup.ag/perps" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Perps</a>
@@ -266,7 +266,7 @@ const Jpy = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-xl mx-8">
+        <div className="flex-1 max-w-md mx-1">
           <div className="relative group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <input 
@@ -332,9 +332,9 @@ const Jpy = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center gap-4">
-          <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
-            <Settings className="w-5 h-5 text-gray-400" />
+        <div className="flex items-center gap-2">
+          <button className="p-1.5 hover:bg-white/5 rounded-lg transition-colors">
+            <Settings className="w-4.5 h-4.5 text-gray-400" />
           </button>
           <div className="jpy-connect-btn">
             <ConnectWalletButton />
@@ -343,7 +343,7 @@ const Jpy = () => {
       </nav>
 
       {/* Sub Navigation */}
-      <div className="flex justify-center gap-8 py-4 text-sm border-b border-white/5">
+      <div className="flex justify-center gap-4 md:gap-8 py-4 text-xs md:text-sm border-b border-white/5">
         <a 
           href="https://jup.ag/portfolio" 
           target="_blank" 
@@ -363,21 +363,21 @@ const Jpy = () => {
       </div>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto mt-24 flex flex-col items-center px-4">
-        <div className="w-12 h-12 rounded-full bg-[#1a1b1e] border border-white/10 flex items-center justify-center mb-8">
+      <main className="max-w-4xl mx-auto mt-12 md:mt-24 flex flex-col items-center px-4">
+        <div className="w-12 h-12 rounded-full bg-[#1a1b1e] border border-white/10 flex items-center justify-center mb-6 md:mb-8">
           <Gift className="w-5 h-5 text-[#c7f284]" />
         </div>
 
-        <h2 className="text-3xl font-bold mb-4 text-center">Check your Solana airdrops eligibility</h2>
-        <p className="text-gray-400 text-center mb-12 max-w-md leading-relaxed">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center px-4">Check your Solana airdrops eligibility</h2>
+        <p className="text-gray-400 text-center mb-8 md:mb-12 max-w-md leading-relaxed px-4 text-sm md:text-base">
           Stake $JUP and scan your different wallets.<br />
           The more you stake, the more you can scan.
         </p>
 
         {/* Info Box */}
-        <div className="w-full max-w-md bg-[#131416] border border-white/5 rounded-xl p-1 mb-4 flex items-center justify-between">
-          <span className="text-sm text-[#d8ff8e] pl-4">You can airdrop check up to 1 wallet</span>
-          <button className="bg-[#d8ff8e]/10 hover:bg-[#d8ff8e]/20 text-[#d8ff8e] px-4 py-2 rounded-lg text-xs font-bold transition-colors">
+        <div className="w-full max-w-md bg-[#131416] border border-white/5 rounded-xl p-3 md:p-1 mb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0">
+          <span className="text-xs md:text-sm text-[#d8ff8e] px-4 md:pl-4">You can airdrop check up to 1 wallet</span>
+          <button className="bg-[#d8ff8e]/10 hover:bg-[#d8ff8e]/20 text-[#d8ff8e] px-4 py-2 rounded-lg text-xs font-bold transition-colors w-full md:w-auto">
             Unlock more
           </button>
         </div>
@@ -418,18 +418,26 @@ const Jpy = () => {
         .jpy-connect-btn button, 
         .jpy-main-connect-btn button,
         .wallet-adapter-button-trigger {
-          border-radius: 8px !important;
+          border-radius: 6px !important;
           background-color: #d8ff8e !important;
           color: black !important;
           font-weight: 700 !important;
-          font-size: 0.875rem !important;
+          font-size: 0.65rem !important;
           height: auto !important;
-          padding: 0.5rem 1.25rem !important;
+          padding: 0.25rem 0.5rem !important;
           border: none !important;
           width: auto !important;
-          line-height: 1.5 !important;
+          line-height: 1.2 !important;
           transition: all 0.3s ease !important;
-          box-shadow: 0 0 15px rgba(216, 255, 142, 0.4) !important;
+          box-shadow: 0 0 10px rgba(216, 255, 142, 0.4) !important;
+          white-space: nowrap !important;
+        }
+        @media (min-width: 768px) {
+          .jpy-connect-btn button {
+            font-size: 0.875rem !important;
+            padding: 0.5rem 1.25rem !important;
+            border-radius: 8px !important;
+          }
         }
         .jpy-main-connect-btn button {
           width: 100% !important;
@@ -445,7 +453,7 @@ const Jpy = () => {
           transform: translateY(-1px);
         }
         .wallet-adapter-button-trigger {
-          border-radius: 8px !important;
+          border-radius: 6px !important;
         }
       `}</style>
     </div>
