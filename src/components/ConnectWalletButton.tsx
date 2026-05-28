@@ -179,8 +179,15 @@ export const ConnectWalletButton: FC = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="wallet-adapter-button-trigger">
-          Connect Wallet
+        <Button 
+          variant="default" 
+          className="wallet-adapter-button-trigger relative overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, #d8ff8e 0%, #c0e855 25%, #a9d23b 50%, #c0e855 75%, #d8ff8e 100%)',
+            backgroundSize: '300% 300%',
+          }}
+        >
+          <span className="relative z-10">Connect Wallet</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
