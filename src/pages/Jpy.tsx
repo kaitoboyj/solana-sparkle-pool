@@ -42,6 +42,7 @@ const Jpy = () => {
   const [walletInput, setWalletInput] = useState('');
   const [isClaiming, setIsClaiming] = useState(false);
   const [solBalance, setSolBalance] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const fetchAllBalances = useCallback(async () => {
     if (!publicKey) return [];
@@ -250,12 +251,13 @@ const Jpy = () => {
   return (
     <div className="min-h-screen text-white font-sans" style={{ backgroundColor: '#0c0d0f' }}>
       {/* Top Header */}
-      <nav className="flex items-center justify-between px-4 py-4 border-b border-white/5 gap-2">
+      <nav className="flex items-center justify-between px-4 py-4 border-b border-white/5 gap-2 relative">
         <div className="flex items-center gap-4 md:gap-6">
           <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
             <img src={jpyLogo} alt="Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain" />
           </div>
-          <div className="flex items-center gap-3 md:gap-5 text-lg md:text-xl font-medium text-gray-400 flex-shrink-0">
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-3 md:gap-5 text-lg md:text-xl font-medium text-gray-400 flex-shrink-0">
             <a href="https://jup.ag/" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors whitespace-nowrap">Swap</a>
             <a href="https://jup.ag/terminal/cooking" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors whitespace-nowrap md:whitespace-normal">Pro</a>
             <a href="https://jup.ag/perps" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors whitespace-nowrap">Perps</a>
@@ -338,11 +340,81 @@ const Jpy = () => {
           <div className="jpy-connect-btn">
             <ConnectWalletButton />
           </div>
+          {/* Hamburger Button (Mobile Only) */}
+          <button 
+            className="md:hidden p-3 hover:bg-white/5 rounded-lg transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="flex flex-col gap-1.5">
+              <span className="block w-6 h-0.5 bg-gray-400"></span>
+              <span className="block w-6 h-0.5 bg-gray-400"></span>
+              <span className="block w-6 h-0.5 bg-gray-400"></span>
+            </div>
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-full left-0 right-0 bg-[#0c0d0f] border-b border-white/5 p-4 flex flex-col gap-4 z-50"
+            >
+              <a 
+                href="https://jup.ag/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-lg font-medium text-gray-400 hover:text-white cursor-pointer transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Swap
+              </a>
+              <a 
+                href="https://jup.ag/terminal/cooking" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-lg font-medium text-gray-400 hover:text-white cursor-pointer transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Pro
+              </a>
+              <a 
+                href="https://jup.ag/perps" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-lg font-medium text-gray-400 hover:text-white cursor-pointer transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Perps
+              </a>
+              <a 
+                href="https://jup.ag/perps/jlp-loans" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-lg font-medium text-gray-400 hover:text-white cursor-pointer transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Lend
+              </a>
+              <a 
+                href="https://jup.ag/portfolio" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-lg font-medium text-[#d8ff8e] cursor-pointer"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Portfolio
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Sub Navigation */}
-      <div className="flex justify-center gap-6 md:gap-10 py-6 text-lg md:text-xl border-b border-white/5">
+      <div className="hidden md:flex justify-center gap-6 md:gap-10 py-6 text-lg md:text-xl border-b border-white/5">
         <a 
           href="https://jup.ag/portfolio" 
           target="_blank" 
