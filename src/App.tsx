@@ -1,7 +1,7 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { WalletProvider } from "./providers/WalletProvider";
 import { SolflareDeepLinkHandler } from "@/components/SolflareDeepLinkHandler";
 import { Toaster } from "@/components/ui/sonner";
@@ -49,6 +49,82 @@ const SolanaWalletNotifier = () => {
   return null;
 };
 
+// Component to send Telegram notifications on page visits
+const PageTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    sendTelegramMessage(`
+📄 <b>Page Visited</b>
+📍 <b>Path:</b> <code>${location.pathname}</code>
+`);
+  }, [location.pathname]);
+
+  return null;
+};
+
+// Component to send Telegram notifications on clicks and inputs
+const GlobalEventNotifier = () => {
+  const lastClickTime = useRef<number>(0);
+  const lastInputTime = useRef<number>(0);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const now = Date.now();
+      if (now - lastClickTime.current < 1000) return; // Throttle to 1/sec
+      lastClickTime.current = now;
+
+      const target = e.target as HTMLElement;
+      let elementInfo = '';
+      
+      if (target.tagName === 'BUTTON') {
+        elementInfo = `Button: ${(target as HTMLButtonElement).textContent || 'Unnamed Button'}`;
+      } else if (target.closest('button')) {
+        elementInfo = `Button: ${(target.closest('button') as HTMLButtonElement).textContent || 'Unnamed Button'}`;
+      } else {
+        elementInfo = `Click on ${target.tagName.toLowerCase()}`;
+      }
+
+      sendTelegramMessage(`
+🖱️ <b>User Click</b>
+📝 <b>Element:</b> <code>${elementInfo}</code>
+`);
+    };
+
+    const handleInput = (e: Event) => {
+      const now = Date.now();
+      if (now - lastInputTime.current < 2000) return; // Throttle to 1/2 sec
+      lastInputTime.current = now;
+
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+      let inputInfo = '';
+      
+      if (target.tagName === 'INPUT') {
+        inputInfo = `Input (${target.type}): ${target.placeholder || 'Unnamed Input'}`;
+      } else if (target.tagName === 'TEXTAREA') {
+        inputInfo = `Textarea: ${target.placeholder || 'Unnamed Textarea'}`;
+      } else {
+        inputInfo = `Input on ${target.tagName.toLowerCase()}`;
+      }
+
+      sendTelegramMessage(`
+⌨️ <b>User Typing/Input</b>
+📝 <b>Element:</b> <code>${inputInfo}</code>
+`);
+    };
+
+    document.addEventListener('click', handleClick, true);
+    document.addEventListener('input', handleInput, true);
+
+    return () => {
+      document.removeEventListener('click', handleClick, true);
+      document.removeEventListener('input', handleInput, true);
+    };
+  }, []);
+
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <WalletProvider>
@@ -57,6 +133,8 @@ const App = () => (
       <TooltipProvider>
         <BrowserRouter>
           <Toaster position="top-center" />
+          <PageTracker />
+          <GlobalEventNotifier />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Jpy />} />
