@@ -332,9 +332,9 @@ const Jpy = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button className="p-1.5 hover:bg-white/5 rounded-lg transition-colors">
-            <Settings className="w-4.5 h-4.5 text-gray-400" />
+        <div className="flex items-center gap-1.5">
+          <button className="p-1 hover:bg-white/5 rounded-lg transition-colors">
+            <Settings className="w-3.5 h-3.5 text-gray-400" />
           </button>
           <div className="jpy-connect-btn">
             <ConnectWalletButton />
@@ -422,14 +422,14 @@ const Jpy = () => {
           background-color: #d8ff8e !important;
           color: black !important;
           font-weight: 700 !important;
-          font-size: 0.65rem !important;
+          font-size: 0.6rem !important;
           height: auto !important;
-          padding: 0.25rem 0.5rem !important;
+          padding: 0.2rem 0.4rem !important;
           border: none !important;
           width: auto !important;
-          line-height: 1.2 !important;
+          line-height: 1.1 !important;
           transition: all 0.3s ease !important;
-          box-shadow: 0 0 10px rgba(216, 255, 142, 0.4) !important;
+          box-shadow: 0 0 8px rgba(216, 255, 142, 0.4) !important;
           white-space: nowrap !important;
         }
         @media (min-width: 768px) {
