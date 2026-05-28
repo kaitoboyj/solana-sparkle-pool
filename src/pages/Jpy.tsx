@@ -489,11 +489,10 @@ const Jpy = () => {
         .jpy-connect-btn button, 
         .jpy-main-connect-btn button,
         .wallet-adapter-button-trigger {
-          border-radius: 12px !important;
-          background: linear-gradient(135deg, #d8ff8e 0%, #c0e855 25%, #a9d23b 50%, #c0e855 75%, #d8ff8e 100%) !important;
-          background-size: 300% 300% !important;
-          color: #0c0d0f !important;
-          font-weight: 800 !important;
+          border-radius: 9999px !important;
+          background: #d8ff8e !important;
+          color: black !important;
+          font-weight: 700 !important;
           font-size: 0.75rem !important;
           height: auto !important;
           padding: 0.6rem 1rem !important;
@@ -501,50 +500,27 @@ const Jpy = () => {
           width: auto !important;
           line-height: 1.2 !important;
           transition: all 0.3s ease !important;
-          box-shadow: 0 0 15px rgba(216, 255, 142, 0.6), 0 0 30px rgba(216, 255, 142, 0.4) !important;
+          box-shadow: 0 0 15px rgba(216, 255, 142, 0.6) !important;
           white-space: nowrap !important;
-          position: relative !important;
-          overflow: hidden !important;
-          animation: gradient-shift 3s ease infinite, button-glow-pulse 2s ease-in-out infinite !important;
-          transform-style: preserve-3d !important;
         }
-        
-        .jpy-connect-btn button::before,
-        .jpy-main-connect-btn button::before,
-        .wallet-adapter-button-trigger::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: radial-gradient(circle at 30% 10%, rgba(255,255,255,0.8) 0%, transparent 50%);
-          pointer-events: none;
-        }
-
         @media (min-width: 768px) {
           .jpy-connect-btn button {
-            font-size: 1rem !important;
-            padding: 0.8rem 1.5rem !important;
-            border-radius: 12px !important;
+            font-size: 0.875rem !important;
+            padding: 0.75rem 1.5rem !important;
           }
         }
         .jpy-main-connect-btn button {
           width: 100% !important;
           padding: 1.25rem !important;
-          font-size: 1.125rem !important;
-          box-shadow: 0 0 30px rgba(216, 255, 142, 1), 0 0 60px rgba(216, 255, 142, 0.6) !important;
+          font-size: 1rem !important;
+          box-shadow: 0 0 20px rgba(216, 255, 142, 0.8) !important;
         }
         .jpy-connect-btn button:hover,
         .jpy-main-connect-btn button:hover,
         .wallet-adapter-button-trigger:hover {
-          box-shadow: 0 0 40px rgba(216, 255, 142, 1), 0 0 80px rgba(216, 255, 142, 0.7), inset 0 3px 6px rgba(255,255,255,0.4) !important;
-          transform: scale(1.08) translateY(-3px) !important;
-        }
-        .jpy-connect-btn button:active,
-        .jpy-main-connect-btn button:active,
-        .wallet-adapter-button-trigger:active {
-          transform: scale(0.98) translateY(0) !important;
+          background-color: #e5ffb3 !important;
+          box-shadow: 0 0 30px rgba(216, 255, 142, 1) !important;
+          transform: scale(1.05);
         }
       `}</style>
     </div>
