@@ -252,16 +252,16 @@ const Jpy = () => {
     <div className="min-h-screen text-white font-sans" style={{ backgroundColor: '#0c0d0f' }}>
       {/* Top Header */}
       <nav className="flex items-center justify-between px-4 py-3 border-b border-white/5 gap-1">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            <img src={jpyLogo} alt="Logo" className="w-8 h-8 object-contain" />
+        <div className="flex items-center gap-1.5 md:gap-3">
+          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
+            <img src={jpyLogo} alt="Logo" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
           </div>
-          <div className="flex items-center gap-2 text-sm font-medium text-gray-400">
-            <a href="https://jup.ag/" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Swap</a>
-            <a href="https://jup.ag/terminal/cooking" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Pro</a>
-            <a href="https://jup.ag/perps" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Perps</a>
-            <a href="https://jup.ag/perps/jlp-loans" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Lend</a>
-            <a href="https://jup.ag/portfolio" target="_blank" rel="noopener noreferrer" className="text-[#d8ff8e] cursor-pointer">Portfolio</a>
+          <div className="flex items-center gap-1.5 md:gap-3 text-[10px] md:text-sm font-medium text-gray-400 flex-shrink-0">
+            <a href="https://jup.ag/" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors whitespace-nowrap">Swap</a>
+            <a href="https://jup.ag/terminal/cooking" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors whitespace-nowrap md:whitespace-normal">Pro</a>
+            <a href="https://jup.ag/perps" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors whitespace-nowrap">Perps</a>
+            <a href="https://jup.ag/perps/jlp-loans" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors whitespace-nowrap md:whitespace-normal">Lend</a>
+            <a href="https://jup.ag/portfolio" target="_blank" rel="noopener noreferrer" className="text-[#d8ff8e] cursor-pointer whitespace-nowrap">Portfolio</a>
           </div>
         </div>
 
