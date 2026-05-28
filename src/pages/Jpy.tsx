@@ -266,7 +266,7 @@ const Jpy = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-md mx-1">
+        <div className="flex-1 max-w-md mx-0">
           <div className="relative group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <input 
@@ -332,7 +332,7 @@ const Jpy = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <button className="p-1 hover:bg-white/5 rounded-lg transition-colors">
             <Settings className="w-3.5 h-3.5 text-gray-400" />
           </button>
@@ -424,7 +424,7 @@ const Jpy = () => {
           font-weight: 700 !important;
           font-size: 0.6rem !important;
           height: auto !important;
-          padding: 0.2rem 0.4rem !important;
+          padding: 0.2rem 0.6rem !important;
           border: none !important;
           width: auto !important;
           line-height: 1.1 !important;
